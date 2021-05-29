@@ -1,5 +1,5 @@
 This repo is inspired by spf13's [Cobra](https://github.com/spf13/cobra). Cobra is both a library for creating powerful modern CLI applications as well as a program to generate applications and command files.
-In this repo, I have created a simple Calculator (only addition and multiplication is implemented, you can add the rest :wink:)n using Cobra.
+In this repo, I have created a simple Calculator (only addition and multiplication is implemented, you can add the rest :wink:) using Cobra.
 
 - Clone this repository into desired directory using this command `git clone https://github.com/FedTheBug/calculator-cli.git`.
 - Go into the directory where you have cloned the repo, and run `go mod vendor -v`
