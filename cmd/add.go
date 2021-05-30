@@ -35,41 +35,51 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		//fmt.Println("add called")
 		status, _ := cmd.Flags().GetBool("float")
-		if status{
-			addFloat(args)
-		}else{
-			addInt(args)
+		if status {
+			result, err := addFloat(args)
+			if err != nil {
+				fmt.Printf("Error in calculating Float Addition %v", err)
+			} else {
+				fmt.Printf("Addition of %s is %.3f", args, result)
+			}
+		} else {
+			result, err := addInt(args)
+			if err != nil {
+				fmt.Printf("Error in calculating Int Addition %v", err)
+			} else {
+				fmt.Printf("Addition of %s is %d", args, result)
+			}
 		}
 	},
 }
 
-func addInt(s []string){
+func addInt(s []string) (int, error) {
 	var sum int
-	for _, i := range s{
+	for _, i := range s {
 		val, err := strconv.Atoi(i)
-		if err != nil{
-			fmt.Println(err)
+		if err != nil {
+			return sum, err
 		}
 		sum = sum + val
 	}
-	fmt.Printf("Addition of %s is %d", s, sum)
+	return sum, nil
 }
 
-func addFloat(s []string){
+func addFloat(s []string) (float64, error) {
 	var sum float64
-	for _, i := range s{
+	for _, i := range s {
 		val, err := strconv.ParseFloat(i, 64)
-		if err != nil{
-			fmt.Println(err)
+		if err != nil {
+			return sum, err
 		}
 		sum = sum + val
 	}
-	fmt.Printf("Addition of %s is %.3f", s, sum)
+	return sum, nil
 }
 
 func init() {
 	rootCmd.AddCommand(addCmd)
-	addCmd.Flags().BoolP("float","f", false, "Addition of Floating Point Numbers")
+	addCmd.Flags().BoolP("float", "f", false, "Addition of Floating Point Numbers")
 
 	// Here you will define your flags and configuration settings.
 
