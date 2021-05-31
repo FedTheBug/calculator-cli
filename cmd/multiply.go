@@ -34,41 +34,51 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		status, _ := cmd.Flags().GetBool("float")
-		if status{
-			multiplyFloat(args)
-		}else{
-			multiplyInt(args)
+		if status {
+			result, err := multiplyFloat(args)
+			if err != nil {
+				fmt.Printf("Error in calculating Float multiplication %v", err)
+			} else {
+				fmt.Printf("Multiplication of %s is %.3f", args, result)
+			}
+		} else {
+			result, err := multiplyInt(args)
+			if err != nil {
+				fmt.Printf("Error in calculating Int multiplication %v", err)
+			} else {
+				fmt.Printf("Multiplication of %s is %d", args, result)
+			}
 		}
 	},
 }
 
-func multiplyInt(s []string){
-	sum := 1
-	for _, i := range s{
+func multiplyInt(s []string) (int, error) {
+	product := 1
+	for _, i := range s {
 		val, err := strconv.Atoi(i)
-		if err!=nil{
-			fmt.Println(err)
+		if err != nil {
+			return product, err
 		}
-		sum = sum * val
+		product = product * val
 	}
-	fmt.Printf("Multiplication of %s is %d", s, sum)
+	return product, nil
 }
 
-func multiplyFloat(s []string){
-	sum := 1.0
-	for _, i := range s{
+func multiplyFloat(s []string) (float64, error) {
+	product := 1.0
+	for _, i := range s {
 		val, err := strconv.ParseFloat(i, 64)
-		if err!=nil{
-			fmt.Println(err)
+		if err != nil {
+			return product, err
 		}
-		sum = sum * val
+		product = product * val
 	}
-	fmt.Printf("Multiplication of %s is %.3f", s, sum)
+	return product, nil
 }
 
 func init() {
 	rootCmd.AddCommand(multiplyCmd)
-	multiplyCmd.Flags().BoolP("float","f", false, "Multiplication of Floating Point Numbers")
+	multiplyCmd.Flags().BoolP("float", "f", false, "Multiplication of Floating Point Numbers")
 
 	// Here you will define your flags and configuration settings.
 
